@@ -1,0 +1,9 @@
+{
+  "identifier": "erkle64.OreMultiplier",
+  "displayName": "OreMultiplier",
+  "assetBundles": [ ],
+  "assemblies": [
+    "OreMultiplier.dll"
+  ]
+}
+
