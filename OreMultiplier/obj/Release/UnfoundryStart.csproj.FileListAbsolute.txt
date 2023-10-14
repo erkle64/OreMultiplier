@@ -1,6 +1,0 @@
-E:\Development\CS\UnfoundryStart\UnfoundryStart\obj\Release\UnfoundryStart.csproj.AssemblyReference.cache
-E:\Development\CS\UnfoundryStart\UnfoundryStart\obj\Release\UnfoundryStart.csproj.CoreCompileInputs.cache
-E:\Development\CS\UnfoundryStart\UnfoundryStart\bin\Release\UnfoundryStart.dll
-E:\Development\CS\UnfoundryStart\UnfoundryStart\bin\Release\UnfoundryStart.pdb
-E:\Development\CS\UnfoundryStart\UnfoundryStart\obj\Release\UnfoundryStart.dll
-E:\Development\CS\UnfoundryStart\UnfoundryStart\obj\Release\UnfoundryStart.pdb
