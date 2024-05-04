@@ -1,9 +1,6 @@
-using Channel3.ModKit;
+using C3.ModKit;
 using HarmonyLib;
-using System.Reflection;
-using System;
 using Unfoundry;
-using Channel3;
 using UnityEngine;
 
 namespace OreMultiplier
@@ -15,13 +12,24 @@ namespace OreMultiplier
             MODNAME = "OreMultiplier",
             AUTHOR = "erkle64",
             GUID = AUTHOR + "." + MODNAME,
-            VERSION = "0.1.0";
+            VERSION = "0.2.0";
 
         public static LogSource log;
+
+        public static TypedConfigEntry<int> chanceMultiplier;
+        public static TypedConfigEntry<int> yieldMultiplier;
 
         public Plugin()
         {
             log = new LogSource(MODNAME);
+
+            new Config(GUID)
+                .Group("Ore Multiplication")
+                    .Entry(out chanceMultiplier, "chanceMultiplier", 2, "Ore patch chance multiplication factor.")
+                    .Entry(out yieldMultiplier, "yieldMultiplier", 8, "Ore patch yield multiplication factor.")
+                .EndGroup()
+                .Load()
+                .Save();
         }
 
         public override void Load(Mod mod)
@@ -38,9 +46,20 @@ namespace OreMultiplier
             {
                 if (__instance.oreSpawn_chancePerChunk_ground > 0)
                 {
-                    log.Log($"Multiplying {__instance.identifier} chance x6");
-                    __instance.oreSpawn_chancePerChunk_ground /= 6;
-                    __instance.oreSpawn_chancePerChunk_surface /= 6;
+                    var chanceFactor = chanceMultiplier.Get();
+                    if (chanceFactor > 0.0f && chanceFactor != 1.0f)
+                    {
+                        log.Log($"Multiplying {__instance.identifier} chance x{chanceFactor}");
+                        __instance.oreSpawn_chancePerChunk_ground = (uint)Mathf.Ceil(__instance.oreSpawn_chancePerChunk_ground / (float)chanceFactor);
+                        __instance.oreSpawn_chancePerChunk_surface = (uint)Mathf.Ceil(__instance.oreSpawn_chancePerChunk_surface / (float)chanceFactor);
+                    }
+
+                    var yieldFactor = yieldMultiplier.Get();
+                    if (yieldFactor > 0.0f && yieldFactor != 1.0f)
+                    {
+                        log.Log($"Multiplying {__instance.identifier} yield x{chanceFactor}");
+                        __instance.averageYield = (int)Mathf.Ceil(__instance.averageYield * yieldFactor);
+                    }
                 }
             }
 
@@ -50,6 +69,7 @@ namespace OreMultiplier
             {
                 if (Input.GetKey(KeyCode.LeftControl))
                 {
+                    log.Log($"Triggering missing ore patch fixup routine");
                     saveGame.hasOrePatchFixupBeenApplied = false;
                     saveGame.doesSaveRequireOrePatchFixup = true;
                 }
