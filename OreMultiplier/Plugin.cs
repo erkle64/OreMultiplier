@@ -16,8 +16,8 @@ namespace OreMultiplier
 
         public static LogSource log;
 
-        public static TypedConfigEntry<int> chanceMultiplier;
-        public static TypedConfigEntry<int> yieldMultiplier;
+        public static TypedConfigEntry<float> chanceMultiplier;
+        public static TypedConfigEntry<float> yieldMultiplier;
 
         public Plugin()
         {
@@ -57,7 +57,7 @@ namespace OreMultiplier
                     var yieldFactor = yieldMultiplier.Get();
                     if (yieldFactor > 0.0f && yieldFactor != 1.0f)
                     {
-                        log.Log($"Multiplying {__instance.identifier} yield x{chanceFactor}");
+                        log.Log($"Multiplying {__instance.identifier} yield x{yieldFactor}");
                         __instance.averageYield = (int)Mathf.Ceil(__instance.averageYield * yieldFactor);
                     }
                 }
