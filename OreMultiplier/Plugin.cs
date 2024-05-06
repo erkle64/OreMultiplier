@@ -12,7 +12,7 @@ namespace OreMultiplier
             MODNAME = "OreMultiplier",
             AUTHOR = "erkle64",
             GUID = AUTHOR + "." + MODNAME,
-            VERSION = "0.2.0";
+            VERSION = "0.2.1";
 
         public static LogSource log;
 
@@ -25,8 +25,8 @@ namespace OreMultiplier
 
             new Config(GUID)
                 .Group("Ore Multiplication")
-                    .Entry(out chanceMultiplier, "chanceMultiplier", 2, "Ore patch chance multiplication factor.")
-                    .Entry(out yieldMultiplier, "yieldMultiplier", 8, "Ore patch yield multiplication factor.")
+                    .Entry(out chanceMultiplier, "chanceMultiplier", 2, true, "Ore patch chance multiplication factor.")
+                    .Entry(out yieldMultiplier, "yieldMultiplier", 8, true, "Ore patch yield multiplication factor.")
                 .EndGroup()
                 .Load()
                 .Save();
