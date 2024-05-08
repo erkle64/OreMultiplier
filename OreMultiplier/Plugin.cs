@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace OreMultiplier
 {
-    [UnfoundryMod(Plugin.GUID)]
+    [UnfoundryMod(GUID)]
     public class Plugin : UnfoundryPlugin
     {
         public const string
             MODNAME = "OreMultiplier",
             AUTHOR = "erkle64",
             GUID = AUTHOR + "." + MODNAME,
-            VERSION = "0.2.1";
+            VERSION = "0.2.3";
 
         public static LogSource log;
 
@@ -59,6 +59,29 @@ namespace OreMultiplier
                     {
                         log.Log($"Multiplying {__instance.identifier} yield x{yieldFactor}");
                         __instance.averageYield = (int)Mathf.Ceil(__instance.averageYield * yieldFactor);
+                    }
+                }
+            }
+
+            [HarmonyPatch(typeof(ReservoirTemplate), nameof(ReservoirTemplate.onLoad))]
+            [HarmonyPrefix]
+            public static void ReservoirTemplate_onLoad(ReservoirTemplate __instance)
+            {
+                if (__instance.chancePerChunk_ground > 0)
+                {
+                    var chanceFactor = chanceMultiplier.Get();
+                    if (chanceFactor > 0.0f && chanceFactor != 1.0f)
+                    {
+                        log.Log($"Multiplying {__instance.identifier} chance x{chanceFactor}");
+                        __instance.chancePerChunk_ground = (uint)Mathf.Ceil(__instance.chancePerChunk_ground / (float)chanceFactor);
+                        __instance.chancePerChunk_surface = (uint)Mathf.Ceil(__instance.chancePerChunk_surface / (float)chanceFactor);
+                    }
+
+                    var yieldFactor = yieldMultiplier.Get();
+                    if (yieldFactor > 0.0f && yieldFactor != 1.0f)
+                    {
+                        log.Log($"Multiplying {__instance.identifier} yield x{yieldFactor}");
+                        __instance.contentIncreasePerTile_str = (System.Convert.ToSingle(__instance.contentIncreasePerTile_str) * yieldFactor).ToString(System.Globalization.CultureInfo.InvariantCulture);
                     }
                 }
             }
