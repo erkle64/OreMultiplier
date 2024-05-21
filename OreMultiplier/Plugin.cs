@@ -13,7 +13,7 @@ namespace OreMultiplier
             MODNAME = "OreMultiplier",
             AUTHOR = "erkle64",
             GUID = AUTHOR + "." + MODNAME,
-            VERSION = "0.2.4";
+            VERSION = "0.2.5";
 
         public static LogSource log;
 
@@ -48,11 +48,11 @@ namespace OreMultiplier
                         "1 = disable reservoir yield multiplication.")
                 .EndGroup()
                 .Group("Vein Overrides")
-                    .Entry(out veinChanceMultiplierOverride, "veinChanceMultiplierOverride", 0.0f, true,
+                    .Entry(out veinChanceMultiplierOverride, "veinChanceMultiplierOverride", 1.0f, true,
                         "Override chance multiplier for ore veins.",
                         "0 = use chanceMultiplier.",
                         "1 = disable ore vein chance multiplication.")
-                    .Entry(out veinYieldMultiplierOverride, "veinYieldMultiplierOverride", 0.0f, true,
+                    .Entry(out veinYieldMultiplierOverride, "veinYieldMultiplierOverride", 1.0f, true,
                         "Override yield multiplier for ore veins.",
                         "0 = use yieldMultiplier.",
                         "1 = disable ore vein yield multiplication.")
@@ -122,7 +122,9 @@ namespace OreMultiplier
                     if (yieldFactor > 0.0f && yieldFactor != 1.0f)
                     {
                         log.Log($"Multiplying {__instance.identifier} yield x{yieldFactor}");
-                        __instance.contentIncreasePerTile_str = (System.Convert.ToSingle(__instance.contentIncreasePerTile_str) * yieldFactor).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        __instance.minContent_str = (System.Convert.ToDouble(__instance.minContent_str) * yieldFactor).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        __instance.maxContent_str = (System.Convert.ToDouble(__instance.maxContent_str) * yieldFactor).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        log.Log($"Result: {__instance.minContent_str} -> {__instance.maxContent_str}");
                     }
                 }
             }
