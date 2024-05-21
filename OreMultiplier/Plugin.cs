@@ -13,7 +13,7 @@ namespace OreMultiplier
             MODNAME = "OreMultiplier",
             AUTHOR = "erkle64",
             GUID = AUTHOR + "." + MODNAME,
-            VERSION = "0.2.5";
+            VERSION = "0.2.6";
 
         public static LogSource log;
 
@@ -32,30 +32,41 @@ namespace OreMultiplier
                 .Group("Ore Multiplication")
                     .Entry(out chanceMultiplier, "chanceMultiplier", 2.0f, true,
                         "Ore patch chance multiplication factor.",
-                        "Increase this to spawn more ore patches, reservoirs and veins.")
+                        "Increase this to spawn more ore patches, reservoirs and veins.",
+                        "Large numbers will cause olumite reservoirs to fill all available positions, leaving no space for ore patches.",
+                        "Use reservoirChanceMultiplierOverride to prevent that from happening.")
                     .Entry(out yieldMultiplier, "yieldMultiplier", 8.0f, true,
                         "Ore patch yield multiplication factor.",
-                        "Increase this to make ore patches, reservoirs and veins contain more ore.")
+                        "Increase this to make ore patches and veins contain more ore per block and reservoirs contain more olumite.")
                 .EndGroup()
                 .Group("Reservoir Overrides")
                     .Entry(out reservoirChanceMultiplierOverride, "reservoirChanceMultiplierOverride", 0.0f, true,
                         "Override chance multiplier for olumite reservoirs.",
-                        "0 = use chanceMultiplier.",
-                        "1 = disable reservoir chance multiplication.")
+                        "0 or negative = use chanceMultiplier.",
+                        "1 = disable reservoir chance multiplication.",
+                        "Numbers larger than 1 increase the number of olumite reservoirs on the map.",
+                        "Recommended to keep this below 10.")
                     .Entry(out reservoirYieldMultiplierOverride, "reservoirYieldMultiplierOverride", 0.0f, true,
                         "Override yield multiplier for olumite reservoirs.",
                         "0 = use yieldMultiplier.",
-                        "1 = disable reservoir yield multiplication.")
+                        "1 = disable reservoir yield multiplication.",
+                        "Numbers larger than 1 increase the amount of olumite in each reservoir.")
                 .EndGroup()
                 .Group("Vein Overrides")
                     .Entry(out veinChanceMultiplierOverride, "veinChanceMultiplierOverride", 1.0f, true,
                         "Override chance multiplier for ore veins.",
+                        "Ore veins are the large patches of underground ore unlocked later in the game.",
                         "0 = use chanceMultiplier.",
-                        "1 = disable ore vein chance multiplication.")
+                        "1 = disable ore vein chance multiplication.",
+                        "Numbers larger than 1 increase the number of ore veins on the map.",
+                        "Very large numbers will cause ore veins to take all the available spaces, leaving no room for ore patches or olumite reservoirs.",
+                        "Recommended to keep this below 5.")
                     .Entry(out veinYieldMultiplierOverride, "veinYieldMultiplierOverride", 1.0f, true,
                         "Override yield multiplier for ore veins.",
+                        "Ore veins are the large patches of underground ore unlocked later in the game.",
                         "0 = use yieldMultiplier.",
-                        "1 = disable ore vein yield multiplication.")
+                        "1 = disable ore vein yield multiplication.",
+                        "Numbers larger than 1 increase the amount of ore in each block for ore veins.")
                 .EndGroup()
                 .Load()
                 .Save();
